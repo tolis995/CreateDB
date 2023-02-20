@@ -1,0 +1,43 @@
+{
+	"query_result": {
+		"id": 135289,
+		"query_hash": "2f09d9792a114d1ce3f7c0f5bc75d675",
+		"query": "\n-- TOTAL VALUE OF ORDERS WITHOUT DELIVERY FEES-NO COUPONS\nselect case\nwhen orders_order.store_id=1 then 'Kallithea'\nwhen orders_order.store_id=2 then 'Marousi'\nwhen orders_order.store_id=3 then 'Psychiko'\nwhen orders_order.store_id=4 then 'Argyroupoli'\nend, \nsum(orders_orderitem.price* orders_orderitem.quantity)  from orders_order\ninner join orders_orderitem on orders_order.id=orders_orderitem.order_id\nwhere orders_order.payment_status='paid'\nand (orders_order.status='delivered' or orders_order.status='ready_for_delivery')\nand orders_order.created_at::DATE=DATE(NOW())\nand orders_orderitem.price>-2\ngroup by orders_order.store_id\n",
+		"data": {
+			"columns": [
+				{
+					"name": "case",
+					"friendly_name": "case",
+					"type": null
+				},
+				{
+					"name": "sum",
+					"friendly_name": "sum",
+					"type": "float"
+				}
+			],
+			"rows": [
+				{
+					"case": "Kallithea",
+					"sum": 907.78
+				},
+				{
+					"case": "Psychiko",
+					"sum": 1001.4
+				},
+				{
+					"case": "Argyroupoli",
+					"sum": 255.33
+				},
+				{
+					"case": "Marousi",
+					"sum": 320.94
+				}
+			]
+		},
+		"data_source_id": 34,
+		"runtime": 0.036328792572021487,
+		"retrieved_at": "2023-01-06T20:02:28.449Z"
+	},
+	"retrieved_at1": "2023-01-06T20:02:28.449Z" 
+}
